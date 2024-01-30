@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_02_16_114344) do
-
+ActiveRecord::Schema.define(version: 20_210_727_210_551) do
   create_table "additional_route_endpoints", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.integer "route_id"
     t.string "endpoint_type"
@@ -68,6 +67,7 @@ ActiveRecord::Schema.define(version: 2018_02_16_114344) do
     t.datetime "created_at", precision: 6
     t.datetime "updated_at", precision: 6
     t.boolean "hold", default: false
+    t.string "uuid"
   end
 
   create_table "domains", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
@@ -123,6 +123,7 @@ ActiveRecord::Schema.define(version: 2018_02_16_114344) do
     t.datetime "created_at", precision: 6
     t.datetime "updated_at", precision: 6
     t.string "hostname"
+    t.integer "priority"
   end
 
   create_table "ip_pool_rules", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
@@ -355,5 +356,4 @@ ActiveRecord::Schema.define(version: 2018_02_16_114344) do
     t.datetime "updated_at", precision: 6
     t.index ["server_id"], name: "index_webhooks_on_server_id"
   end
-
 end

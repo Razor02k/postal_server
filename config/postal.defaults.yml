@@ -15,25 +15,14 @@ general:
   maximum_hold_expiry_days: 7
   suppression_list_removal_delay: 30
   use_local_ns_for_domains: false
+  default_spam_threshold: 5.0
+  default_spam_failure_threshold: 20.0
+  use_resent_sender_header: true
 
 web_server:
   bind_address: 127.0.0.1
   port: 5000
   max_threads: 5
-
-fast_server:
-  enabled: false
-  bind_address:
-    # Set appropriate IP addresses to listen on. These should be dedicated IP
-    # addresses just used for this server. You should list IPv4 and IPv6 addresses
-    # as appropriate.
-    # - 1.2.3.4
-    # - abcd:a:b:c:d::1
-  port: 80
-  ssl_port: 443
-  proxy_protocol: false
-  default_private_key_path: # Defaults to config/fast_server.key
-  default_tls_certificate_path: # Defaults to config/fast_server.cert
 
 main_db:
   host: 127.0.0.1
@@ -48,7 +37,7 @@ logging:
   root: # Automatically determined based on config root
   max_log_file_size: 20
   max_log_files: 10
-  greylog:
+  graylog:
     host:
     port: 12201
 
@@ -62,6 +51,10 @@ message_db:
 rabbitmq:
   host: 127.0.0.1
   port: 5672
+  tls: false
+  verify_peer: true
+  tls_ca_certificates:
+    - /etc/ssl/certs/ca-certificates.crt
   username: postal
   password:
   vhost: /postal
@@ -72,6 +65,7 @@ workers:
 
 smtp_server:
   port: 25
+  bind_address: '::'
   tls_enabled: false
   tls_certificate_path: # Defaults to config/smtp.cert
   tls_private_key_path: # Defaults to config/smtp.key
@@ -112,6 +106,14 @@ smtp:
 rails:
   environment: production
   secret_key:
+
+rspamd:
+  enabled: false
+  host: 127.0.0.1
+  port: 11334
+  ssl: false
+  password: null
+  flags: null
 
 spamd:
   enabled: false

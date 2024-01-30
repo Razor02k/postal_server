@@ -1,4 +1,4 @@
-require_relative 'boot'
+require_relative "boot"
 
 require "rails"
 require "active_model/railtie"
@@ -14,8 +14,8 @@ Bundler.require(*Rails.groups)
 
 module Postal
   class Application < Rails::Application
-    # Set the Rails logger
-    config.logger = Postal.logger_for(:rails)
+
+    config.load_defaults 6.0
 
     # Disable most generators
     config.generators do |g|
@@ -27,9 +27,18 @@ module Postal
     end
 
     # Include from lib
-    config.eager_load_namespaces << Postal
+    config.eager_load_paths << Rails.root.join("lib")
 
     # Disable field_with_errors
-    config.action_view.field_error_proc = Proc.new { |t, i| t }
+    config.action_view.field_error_proc = proc { |t, i| t }
+
+    # Load the tracking server middleware
+    require "postal/tracking_middleware"
+    config.middleware.use Postal::TrackingMiddleware
+
+    config.logger = Postal.logger_for(:rails)
+
+    config.hosts << Postal.config.web.host
+
   end
 end
